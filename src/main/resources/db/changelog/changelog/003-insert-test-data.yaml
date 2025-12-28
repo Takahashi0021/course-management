@@ -1,0 +1,163 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-01-insert-courses
+      author: student
+      context: test
+      changes:
+        - insert:
+            tableName: courses
+            columns:
+              - column: {name: title, value: 'Introduction to Computer Science'}
+              - column: {name: description, value: 'Fundamental concepts of computer science and programming'}
+              - column: {name: instructor_id, valueNumeric: 2}  # Prof. Petrov
+              - column: {name: price, valueNumeric: 0}
+              - column: {name: is_published, valueBoolean: true}
+
+        - insert:
+            tableName: courses
+            columns:
+              - column: {name: title, value: 'Web Development with Spring Boot'}
+              - column: {name: description, value: 'Building modern web applications using Spring Boot framework'}
+              - column: {name: instructor_id, valueNumeric: 3}  # Dr. Sidorova
+              - column: {name: price, valueNumeric: 49.99}
+              - column: {name: is_published, valueBoolean: true}
+
+        - insert:
+            tableName: courses
+            columns:
+              - column: {name: title, value: 'Database Design and Management'}
+              - column: {name: description, value: 'Principles of database design, SQL, and database administration'}
+              - column: {name: instructor_id, valueNumeric: 2}  # Prof. Petrov
+              - column: {name: price, valueNumeric: 29.99}
+              - column: {name: is_published, valueBoolean: true}
+
+        - insert:
+            tableName: courses
+            columns:
+              - column: {name: title, value: 'Mobile Application Development'}
+              - column: {name: description, value: 'Creating mobile apps for Android and iOS platforms'}
+              - column: {name: instructor_id, valueNumeric: 3}  # Dr. Sidorova
+              - column: {name: price, valueNumeric: 59.99}
+              - column: {name: is_published, valueBoolean: false}
+
+  - changeSet:
+      id: 003-02-insert-lessons
+      author: student
+      context: test
+      changes:
+        - insert:
+            tableName: lessons
+            columns:
+              - column: {name: title, value: 'Introduction to Algorithms'}
+              - column: {name: content, value: 'Basic algorithms and their complexity analysis'}
+              - column: {name: course_id, valueNumeric: 1}
+              - column: {name: order_number, valueNumeric: 1}
+              - column: {name: video_url, value: 'https://example.com/video1'}
+
+        - insert:
+            tableName: lessons
+            columns:
+              - column: {name: title, value: 'Data Structures Overview'}
+              - column: {name: content, value: 'Arrays, lists, stacks, queues, and trees'}
+              - column: {name: course_id, valueNumeric: 1}
+              - column: {name: order_number, valueNumeric: 2}
+
+        - insert:
+            tableName: lessons
+            columns:
+              - column: {name: title, value: 'Spring Boot Fundamentals'}
+              - column: {name: content, value: 'Setting up Spring Boot project and basic configurations'}
+              - column: {name: course_id, valueNumeric: 2}
+              - column: {name: order_number, valueNumeric: 1}
+
+  - changeSet:
+      id: 003-03-insert-enrollments
+      author: student
+      context: test
+      changes:
+        - insert:
+            tableName: enrollments
+            columns:
+              - column: {name: student_id, valueNumeric: 4}
+              - column: {name: course_id, valueNumeric: 1}
+              - column: {name: progress, valueNumeric: 30}
+              - column: {name: status, value: 'ACTIVE'}
+
+        - insert:
+            tableName: enrollments
+            columns:
+              - column: {name: student_id, valueNumeric: 4}
+              - column: {name: course_id, valueNumeric: 2}
+              - column: {name: progress, valueNumeric: 50}
+              - column: {name: status, value: 'ACTIVE'}
+
+        - insert:
+            tableName: enrollments
+            columns:
+              - column: {name: student_id, valueNumeric: 5}
+              - column: {name: course_id, valueNumeric: 2}
+              - column: {name: progress, valueNumeric: 70}
+              - column: {name: status, value: 'ACTIVE'}
+
+        - insert:
+            tableName: enrollments
+            columns:
+              - column: {name: student_id, valueNumeric: 6}
+              - column: {name: course_id, valueNumeric: 3}
+              - column: {name: progress, valueNumeric: 20}
+              - column: {name: status, value: 'ACTIVE'}
+
+  - changeSet:
+      id: 003-04-insert-assignments
+      author: student
+      context: test
+      changes:
+        - insert:
+            tableName: assignments
+            columns:
+              - column: {name: title, value: 'Algorithm Implementation'}
+              - column: {name: description, value: 'Implement sorting algorithms and analyze their performance'}
+              - column: {name: course_id, valueNumeric: 1}
+              - column: {name: max_points, valueNumeric: 100}
+              - column: {name: due_date, value: '2024-12-31 23:59:59'}
+
+        - insert:
+            tableName: assignments
+            columns:
+              - column: {name: title, value: 'Spring Boot REST API'}
+              - column: {name: description, value: 'Create a RESTful API using Spring Boot with CRUD operations'}
+              - column: {name: course_id, valueNumeric: 2}
+              - column: {name: max_points, valueNumeric: 150}
+              - column: {name: due_date, value: '2024-12-25 23:59:59'}
+
+  - changeSet:
+      id: 003-05-insert-submissions
+      author: student
+      context: test
+      changes:
+        - insert:
+            tableName: assignment_submissions
+            columns:
+              - column: {name: assignment_id, valueNumeric: 1}
+              - column: {name: student_id, valueNumeric: 4}
+              - column: {name: submission_text, value: 'Implemented bubble sort and quick sort algorithms'}
+              - column: {name: points, valueNumeric: 85}
+              - column: {name: status, value: 'GRADED'}
+
+        - insert:
+            tableName: assignment_submissions
+            columns:
+              - column: {name: assignment_id, valueNumeric: 2}
+              - column: {name: student_id, valueNumeric: 4}
+              - column: {name: submission_text, value: 'Created API for user management system'}
+              - column: {name: points, valueNumeric: 120}
+              - column: {name: status, value: 'GRADED'}
+
+        - insert:
+            tableName: assignment_submissions
+            columns:
+              - column: {name: assignment_id, valueNumeric: 2}
+              - column: {name: student_id, valueNumeric: 5}
+              - column: {name: submission_text, value: 'Implemented product catalog API'}
+              - column: {name: points, valueNumeric: 135}
+              - column: {name: status, value: 'GRADED'}

@@ -1,0 +1,11 @@
+databaseChangeLog:
+  # Включаем все изменения из папки changelog
+  - includeAll:
+      path: db/changelog/changelog/
+      relativeToChangelogFile: false
+
+  # Включаем тестовые данные (можно отключить для production)
+  - includeAll:
+      path: db/changelog/test-data/
+      relativeToChangelogFile: false
+      context: test

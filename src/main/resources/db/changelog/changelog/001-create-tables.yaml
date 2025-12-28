@@ -1,0 +1,216 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-01-create-users-table
+      author: student
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column: {name: id, type: BIGSERIAL, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: email, type: VARCHAR(255), constraints: {unique: true, nullable: false}}
+              - column: {name: password, type: VARCHAR(255), constraints: {nullable: false}}
+              - column: {name: first_name, type: VARCHAR(100)}
+              - column: {name: last_name, type: VARCHAR(100)}
+              - column: {name: role, type: VARCHAR(50), constraints: {nullable: false}}
+              - column: {name: is_active, type: BOOLEAN, defaultValueBoolean: true}
+              - column: {name: created_at, type: TIMESTAMP, defaultValueComputed: "CURRENT_TIMESTAMP"}
+              - column: {name: updated_at, type: TIMESTAMP, defaultValueComputed: "CURRENT_TIMESTAMP"}
+
+        - createIndex:
+            tableName: users
+            indexName: idx_users_email
+            columns:
+              - column: {name: email}
+
+  - changeSet:
+      id: 001-02-create-courses-table
+      author: student
+      changes:
+        - createTable:
+            tableName: courses
+            columns:
+              - column: {name: id, type: BIGSERIAL, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: title, type: VARCHAR(255), constraints: {nullable: false}}
+              - column: {name: description, type: TEXT}
+              - column: {name: instructor_id, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: price, type: DECIMAL(10.2), defaultValueNumeric: 0}  # Изменил 10,2 на 10.2
+              - column: {name: is_published, type: BOOLEAN, defaultValueBoolean: false}
+              - column: {name: created_at, type: TIMESTAMP, defaultValueComputed: "CURRENT_TIMESTAMP"}
+              - column: {name: updated_at, type: TIMESTAMP, defaultValueComputed: "CURRENT_TIMESTAMP"}
+
+        - addForeignKeyConstraint:
+            baseTableName: courses
+            baseColumnNames: instructor_id
+            constraintName: fk_courses_instructor
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: RESTRICT
+            onUpdate: CASCADE
+
+        - createIndex:
+            tableName: courses
+            indexName: idx_courses_instructor
+            columns:
+              - column: {name: instructor_id}
+
+  - changeSet:
+      id: 001-03-create-lessons-table
+      author: student
+      changes:
+        - createTable:
+            tableName: lessons
+            columns:
+              - column: {name: id, type: BIGSERIAL, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: title, type: VARCHAR(255), constraints: {nullable: false}}
+              - column: {name: content, type: TEXT}
+              - column: {name: video_url, type: VARCHAR(500)}
+              - column: {name: course_id, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: order_number, type: INT}
+              - column: {name: created_at, type: TIMESTAMP, defaultValueComputed: "CURRENT_TIMESTAMP"}
+
+        - addForeignKeyConstraint:
+            baseTableName: lessons
+            baseColumnNames: course_id
+            constraintName: fk_lessons_course
+            referencedTableName: courses
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+
+        - createIndex:
+            tableName: lessons
+            indexName: idx_lessons_course
+            columns:
+              - column: {name: course_id}
+              - column: {name: order_number}
+
+  - changeSet:
+      id: 001-04-create-enrollments-table
+      author: student
+      changes:
+        - createTable:
+            tableName: enrollments
+            columns:
+              - column: {name: id, type: BIGSERIAL, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: student_id, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: course_id, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: enrolled_at, type: TIMESTAMP, defaultValueComputed: "CURRENT_TIMESTAMP"}
+              - column: {name: progress, type: INT, defaultValueNumeric: 0, constraints: {checkConstraint: "progress >= 0 AND progress <= 100"}}
+              - column: {name: status, type: VARCHAR(20), defaultValue: "ACTIVE"}
+
+        - addForeignKeyConstraint:
+            baseTableName: enrollments
+            baseColumnNames: student_id
+            constraintName: fk_enrollments_student
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: enrollments
+            baseColumnNames: course_id
+            constraintName: fk_enrollments_course
+            referencedTableName: courses
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+
+        - addUniqueConstraint:
+            tableName: enrollments
+            columnNames: student_id, course_id
+            constraintName: uk_enrollment_student_course
+
+        - createIndex:
+            tableName: enrollments
+            indexName: idx_enrollments_student
+            columns:
+              - column: {name: student_id}
+
+        - createIndex:
+            tableName: enrollments
+            indexName: idx_enrollments_course
+            columns:
+              - column: {name: course_id}
+
+  - changeSet:
+      id: 001-05-create-assignments-table
+      author: student
+      changes:
+        - createTable:
+            tableName: assignments
+            columns:
+              - column: {name: id, type: BIGSERIAL, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: title, type: VARCHAR(255), constraints: {nullable: false}}
+              - column: {name: description, type: TEXT}
+              - column: {name: course_id, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: max_points, type: INT, defaultValueNumeric: 100, constraints: {checkConstraint: "max_points > 0"}}
+              - column: {name: due_date, type: TIMESTAMP}
+              - column: {name: created_at, type: TIMESTAMP, defaultValueComputed: "CURRENT_TIMESTAMP"}
+
+        - addForeignKeyConstraint:
+            baseTableName: assignments
+            baseColumnNames: course_id
+            constraintName: fk_assignments_course
+            referencedTableName: courses
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+
+        - createIndex:
+            tableName: assignments
+            indexName: idx_assignments_course
+            columns:
+              - column: {name: course_id}
+
+  - changeSet:
+      id: 001-06-create-assignment-submissions-table
+      author: student
+      changes:
+        - createTable:
+            tableName: assignment_submissions
+            columns:
+              - column: {name: id, type: BIGSERIAL, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: assignment_id, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: student_id, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: submission_text, type: TEXT}
+              - column: {name: file_url, type: VARCHAR(500)}
+              - column: {name: submitted_at, type: TIMESTAMP, defaultValueComputed: "CURRENT_TIMESTAMP"}
+              - column: {name: points, type: INT}
+              - column: {name: feedback, type: TEXT}
+              - column: {name: status, type: VARCHAR(20), defaultValue: "SUBMITTED"}
+
+        - addForeignKeyConstraint:
+            baseTableName: assignment_submissions
+            baseColumnNames: assignment_id
+            constraintName: fk_submissions_assignment
+            referencedTableName: assignments
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: assignment_submissions
+            baseColumnNames: student_id
+            constraintName: fk_submissions_student
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+
+        - addUniqueConstraint:
+            tableName: assignment_submissions
+            columnNames: assignment_id, student_id
+            constraintName: uk_submission_assignment_student
+
+        - createIndex:
+            tableName: assignment_submissions
+            indexName: idx_submissions_assignment
+            columns:
+              - column: {name: assignment_id}
+
+        - createIndex:
+            tableName: assignment_submissions
+            indexName: idx_submissions_student
+            columns:
+              - column: {name: student_id}

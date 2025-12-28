@@ -1,0 +1,72 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-01-insert-admin-user
+      author: student
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column: {name: email, value: 'admin@university.edu'}
+              - column: {name: password, value: '$2a$12$Wq6Lp8Xq2Q3RkZzVJN9M5eQwT7YbUcVfGhIjKlMnOpQrStUvWxYzA'}  # Password: Admin123!
+              - column: {name: first_name, value: 'Alexey'}
+              - column: {name: last_name, value: 'Ivanov'}
+              - column: {name: role, value: 'ROLE_ADMIN'}
+              - column: {name: is_active, valueBoolean: true}
+
+  - changeSet:
+      id: 002-02-insert-instructors
+      author: student
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column: {name: email, value: 'prof.petrov@university.edu'}
+              - column: {name: password, value: '$2a$12$AbCdEfGhIjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOpQrStUvWxYz'}  # Password: Instructor123!
+              - column: {name: first_name, value: 'Sergey'}
+              - column: {name: last_name, value: 'Petrov'}
+              - column: {name: role, value: 'ROLE_INSTRUCTOR'}
+              - column: {name: is_active, valueBoolean: true}
+
+        - insert:
+            tableName: users
+            columns:
+              - column: {name: email, value: 'dr.sidorova@university.edu'}
+              - column: {name: password, value: '$2a$12$BcDeFgHiJkLmNoPqRsTuVwXyZAbCdEfGhIjKlMnOpQrStUvWxYzA'}  # Password: Teacher456!
+              - column: {name: first_name, value: 'Maria'}
+              - column: {name: last_name, value: 'Sidorova'}
+              - column: {name: role, value: 'ROLE_INSTRUCTOR'}
+              - column: {name: is_active, valueBoolean: true}
+
+  - changeSet:
+      id: 002-03-insert-students
+      author: student
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column: {name: email, value: 'student1@university.edu'}
+              - column: {name: password, value: '$2a$12$CdEfGhIjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOpQrStUvWxYzAb'}  # Password: Student123!
+              - column: {name: first_name, value: 'Ivan'}
+              - column: {name: last_name, value: 'Kuznetsov'}
+              - column: {name: role, value: 'ROLE_STUDENT'}
+              - column: {name: is_active, valueBoolean: true}
+
+        - insert:
+            tableName: users
+            columns:
+              - column: {name: email, value: 'student2@university.edu'}
+              - column: {name: password, value: '$2a$12$DeFgHiJkLmNoPqRsTuVwXyZAbCdEfGhIjKlMnOpQrStUvWxYzAbC'}  # Password: Student456!
+              - column: {name: first_name, value: 'Anna'}
+              - column: {name: last_name, value: 'Smirnova'}
+              - column: {name: role, value: 'ROLE_STUDENT'}
+              - column: {name: is_active, valueBoolean: true}
+
+        - insert:
+            tableName: users
+            columns:
+              - column: {name: email, value: 'student3@university.edu'}
+              - column: {name: password, value: '$2a$12$EfGhIjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOpQrStUvWxYzAbCd'}  # Password: Student789!
+              - column: {name: first_name, value: 'Dmitry'}
+              - column: {name: last_name, value: 'Volkov'}
+              - column: {name: role, value: 'ROLE_STUDENT'}
+              - column: {name: is_active, valueBoolean: true}
