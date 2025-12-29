@@ -45,3 +45,5 @@ Transactional Operations: Critical operations like assignment submission and gra
 Role-Based Service Methods: Business logic methods include role validation, ensuring users can only perform actions permitted by their role, with clear exception messages for unauthorized attempts.
 
 Data Integrity: Relationships between entities are maintained with proper cascading and validation, ensuring referential integrity throughout the system.
+
+https://www.canva.com/design/DAG81QLEUUA/_H_vDemZDzNvPsbFOMSPjA/edit?utm_content=DAG81QLEUUA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
